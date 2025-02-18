@@ -5,17 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User {
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String name;
-    private String email;
-    private String password;
 
+    @OneToMany
+    private List<BookedSeat> bookedSeat;
 
+    @OneToMany
+    private List<Food> food;
+
+    private BigDecimal price;
+
+    @ManyToOne
+    private User user;
 }

@@ -13,7 +13,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendOtpEmail(String toEmail, String otp) throws MessagingException {
+    public void sendOtpEmail(String toEmail, String otp, String sub) throws MessagingException {
         try{
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -23,6 +23,7 @@ public class EmailService {
 
             String htmlContent = "<div style='font-family:Arial,sans-serif;padding:20px;'>"
                     + "<h2 style='color:#2E86C1;'>Mã xác nhận OTP của bạn</h2>"
+                    + "<p><i>" + sub + "</i></p>"
                     + "<p>Xin chào,</p>"
                     + "<p>Mã OTP của bạn là: <b style='font-size:20px;color:#D35400;'>" + otp + "</b></p>"
                     + "<p>Vui lòng nhập mã này để tiếp tục.</p>"
