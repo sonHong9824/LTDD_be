@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 
@@ -17,8 +18,10 @@ import java.math.BigDecimal;
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     private String name;
+    private String description;
     private BigDecimal price;
     private String pictureUrl;
 }

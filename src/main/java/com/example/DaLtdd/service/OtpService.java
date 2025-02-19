@@ -17,7 +17,6 @@ import java.util.Optional;
 public class OtpService {
     @Autowired
     private OtpRepository otpRepository;
-
     @Autowired
     private EmailService emailService;
     @Autowired

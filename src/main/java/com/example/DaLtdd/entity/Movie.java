@@ -15,9 +15,11 @@ import java.util.List;
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private int duration;
     private LocalDate releaseDate;
@@ -27,5 +29,10 @@ public class Movie {
     private MovieStatus status;
 
     @ManyToMany
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
     private List<Genre> genres;
 }
