@@ -6,6 +6,8 @@ import com.example.DaLtdd.repository.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CinemaService {
     @Autowired
@@ -17,4 +19,9 @@ public class CinemaService {
         cinema.setLocation(request.getLocation());
         return cinemaRepository.save(cinema);
     }
+
+    public List<Cinema> getAllCinema() {
+        return cinemaRepository.findAll();
+    }
+
 }

@@ -35,4 +35,7 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private List<Genre> genres;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 }
