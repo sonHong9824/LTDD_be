@@ -25,6 +25,7 @@ public class Movie {
     private LocalDate releaseDate;
     private String posterUrl;
     private String trailerUrl;
+    private String scope;
 
     @Enumerated(EnumType.STRING)
     private MovieStatus status;
