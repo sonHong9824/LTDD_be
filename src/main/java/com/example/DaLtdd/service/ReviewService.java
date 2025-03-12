@@ -1,5 +1,6 @@
 package com.example.DaLtdd.service;
 
+import com.example.DaLtdd.dto.MovieRating;
 import com.example.DaLtdd.dto.ReviewRequest;
 import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.entity.Review;
@@ -31,12 +32,21 @@ public class ReviewService {
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
 
         Review review = new Review();
-        review.setUser(user);
-        review.setMovie(movie);
+        review.setUser_id(user.getId());
+        review.setMovie_id(movie.getId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
         review.setCreatedAt(LocalDateTime.now());
 
         return reviewRepository.save(review);
+    }
+
+    public MovieRating getMovieRatingSummary(String movieId) {
+        MovieRating summary = reviewRepository.getMovieRatingSummary(movieId);
+
+        if (summary == null || summary.getTotalReviews() == 0) {
+            return new MovieRating(0.0, 0);
+        }
+        return summary;
     }
 }

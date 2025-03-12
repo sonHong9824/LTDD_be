@@ -24,6 +24,7 @@ public class Movie {
     private int duration;
     private LocalDate releaseDate;
     private String posterUrl;
+    private String trailerUrl;
 
     @Enumerated(EnumType.STRING)
     private MovieStatus status;
@@ -36,6 +37,4 @@ public class Movie {
     )
     private List<Genre> genres;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews;
 }

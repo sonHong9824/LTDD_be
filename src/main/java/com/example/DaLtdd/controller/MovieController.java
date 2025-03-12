@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+
+import com.example.DaLtdd.dto.MovieSummary;
 import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,13 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @GetMapping("/get-all")
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        return ResponseEntity.ok(movieService.get_all_moive());
+    @GetMapping("/now-showing")
+    public ResponseEntity<List<MovieSummary>> getNowShowingMovies() {
+        return ResponseEntity.ok(movieService.getNowShowingMoviesWithSummary());
+    }
+    @GetMapping("/coming-soon")
+    public ResponseEntity<List<MovieSummary>> getComingSoonMovies() {
+        return ResponseEntity.ok(movieService.getComingSoonMoviesWithSummary());
     }
 
     @GetMapping("/genre/{genreName}")

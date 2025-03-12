@@ -16,6 +16,7 @@ public class MovieRequest {
     private LocalDate releaseDate;
     private String posterUrl;
     private MovieStatus status;
+    private String trailerUrl;
     @Setter
     @Getter
     private List<String> genreName;

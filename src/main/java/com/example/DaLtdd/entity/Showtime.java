@@ -22,5 +22,7 @@ public class Showtime {
     @ManyToOne
     private Cinema cinema;
 
+    private String room;
+
     private LocalDateTime showtime;
 }
