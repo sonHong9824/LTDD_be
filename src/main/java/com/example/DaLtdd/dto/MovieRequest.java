@@ -18,6 +18,7 @@ public class MovieRequest {
     private MovieStatus status;
     private String trailerUrl;
     private String scope;
+    private String language;
     @Setter
     @Getter
     private List<String> genreName;

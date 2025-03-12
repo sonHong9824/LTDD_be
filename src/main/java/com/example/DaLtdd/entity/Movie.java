@@ -26,6 +26,7 @@ public class Movie {
     private String posterUrl;
     private String trailerUrl;
     private String scope;
+    private String language;
 
     @Enumerated(EnumType.STRING)
     private MovieStatus status;

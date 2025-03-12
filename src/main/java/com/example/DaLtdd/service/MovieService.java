@@ -46,6 +46,7 @@ public class MovieService {
         movie.setStatus(request.getStatus());
         movie.setTrailerUrl(request.getTrailerUrl());
         movie.setScope(request.getScope());
+        movie.setLanguage(request.getLanguage());
 
 
         List<Genre> genres = genreRepository.findByNameIn(request.getGenreName());
