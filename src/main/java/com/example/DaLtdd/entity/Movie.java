@@ -24,6 +24,7 @@ public class Movie {
     private int duration;
     private LocalDate releaseDate;
     private String posterUrl;
+    private String backdropUrl;
     private String trailerUrl;
     private String scope;
     private String language;

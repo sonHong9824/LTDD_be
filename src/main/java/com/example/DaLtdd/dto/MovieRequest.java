@@ -17,6 +17,7 @@ public class MovieRequest {
     private String posterUrl;
     private MovieStatus status;
     private String trailerUrl;
+    private String backdropUrl;
     private String scope;
     private String language;
     @Setter
