@@ -12,5 +12,5 @@ public class ShowtimeRequest {
     private String movieId;
     private String cinemaId;
     private LocalDateTime showtime;
-
+    private String room;
 }
