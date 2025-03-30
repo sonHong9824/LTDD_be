@@ -23,10 +23,13 @@ public class UserController {
     private OtpService otpService;
 
     @PostMapping("/reset-password")
-    public MessageResponse resetPassword(@RequestBody VerifyUserRequest request) throws MessagingException {
-        return userService.forgetPassword(request);
+    public MessageResponse resetPassword(@RequestBody VerifyUserRequest request) {
+        return userService.resetPassword(request);
     }
-
+    @PostMapping("/verify-forgot-password-otp")
+    public MessageResponse verifyForgotPassword(@RequestParam String email, @RequestParam String otp) {
+        return otpService.verifyForgotPassword(email, otp);
+    }
     @PostMapping("/send-otp-forgot-pass")
     public MessageResponse sendOtpForgotPass(@RequestParam("email") String email) throws MessagingException {
         return otpService.sendForgotPassword(email);
