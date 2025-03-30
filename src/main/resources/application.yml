@@ -17,7 +17,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/ltdd"
     driverClassName: "com.mysql.cj.jdbc.Driver"
     username: root
-    password: vinh@123
+    password: root
   hikari:
     maximum-pool-size: 10
     minimum-idle: 5
