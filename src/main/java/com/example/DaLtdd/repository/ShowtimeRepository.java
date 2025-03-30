@@ -1,12 +1,14 @@
 package com.example.DaLtdd.repository;
 
 import com.example.DaLtdd.entity.Showtime;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
@@ -20,4 +22,6 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
     List<Showtime> findByMovieAndDate(
             @Param("movieId") String movieId,
             @Param("date") LocalDateTime date);
+
+    @NotNull Optional<Showtime> findById (@NotNull String id);
 }
