@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SeatService {
@@ -19,9 +20,13 @@ public class SeatService {
     @Autowired
     private ShowtimeRepository showtimeRepository;
 
-    public List<BookedSeat> getSeatsbyShowtime(String showtime_id){
-        return seatRepository.findByShowtime_Id(showtime_id);
+    public List<String> getSeatNumbersByShowtime(String showtimeId) {
+        return seatRepository.findByShowtime_Id(showtimeId)
+                .stream()
+                .map(BookedSeat::getSeat)
+                .collect(Collectors.toList());
     }
+
 
     public BookedSeat createSeat(SeatRequest seatRequest){
         Optional<Showtime> showtimeOpt = showtimeRepository.findById(seatRequest.getShowtime_id());

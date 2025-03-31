@@ -23,8 +23,8 @@ public class SeatController {
     }
 
     @GetMapping("/getByShowtime")
-    public ResponseEntity<List<BookedSeat>> getByShowtime(@RequestParam String showtimeId) {
-        return ResponseEntity.ok(seatService.getSeatsbyShowtime(showtimeId));
+    public ResponseEntity<List<String>> getByShowtime(@RequestParam String showtimeId) {
+        List<String> seatNumbers = seatService.getSeatNumbersByShowtime(showtimeId);
+        return ResponseEntity.ok(seatNumbers);
     }
-
 }
