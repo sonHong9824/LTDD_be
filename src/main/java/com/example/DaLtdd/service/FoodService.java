@@ -6,6 +6,8 @@ import com.example.DaLtdd.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FoodService {
     @Autowired
@@ -19,5 +21,9 @@ public class FoodService {
         food.setPrice(request.getPrice());
         return foodRepository.save(food);
 
+    }
+
+    public List<Food> getAllFoods() {
+        return foodRepository.findAll();
     }
 }
