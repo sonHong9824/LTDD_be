@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,8 +15,7 @@ import java.util.List;
 @Entity
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private Long id;
 
     @OneToMany
     private List<BookedSeat> bookedSeat;
@@ -23,8 +23,12 @@ public class Ticket {
     @OneToMany
     private List<BookedFood> bookedFoods;
 
-    private BigDecimal price;
+    private int price;
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Showtime showtime;
+
 }

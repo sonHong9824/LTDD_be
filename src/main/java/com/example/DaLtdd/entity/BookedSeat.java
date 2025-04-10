@@ -20,5 +20,4 @@ public class BookedSeat {
     private Showtime showtime;
 
     private String seat;
-    private BigDecimal price;
 }

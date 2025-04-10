@@ -27,7 +27,6 @@ public class SeatService {
                 .collect(Collectors.toList());
     }
 
-
     public BookedSeat createSeat(SeatRequest seatRequest){
         Optional<Showtime> showtimeOpt = showtimeRepository.findById(seatRequest.getShowtime_id());
 
@@ -36,7 +35,6 @@ public class SeatService {
             BookedSeat bookedSeat = new BookedSeat();
             bookedSeat.setShowtime(showtime);
             bookedSeat.setSeat(seatRequest.getSeat());
-            bookedSeat.setPrice(seatRequest.getPrice());
 
             return seatRepository.save(bookedSeat);
         } else {

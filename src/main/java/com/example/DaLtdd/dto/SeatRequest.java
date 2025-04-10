@@ -9,5 +9,4 @@ import java.math.BigDecimal;
 public class SeatRequest {
     private String showtime_id;
     private String seat;
-    private BigDecimal price;
 }
