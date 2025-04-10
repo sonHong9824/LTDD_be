@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 public class FoodRequest {
     private String name;
     private String description;
-    private BigDecimal price;
+    private int price;
     private String pictureUrl;
 }

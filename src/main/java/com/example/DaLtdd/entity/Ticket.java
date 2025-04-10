@@ -21,7 +21,7 @@ public class Ticket {
     private List<BookedSeat> bookedSeat;
 
     @OneToMany
-    private List<Food> food;
+    private List<BookedFood> bookedFoods;
 
     private BigDecimal price;
 
