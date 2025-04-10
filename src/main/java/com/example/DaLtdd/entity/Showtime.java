@@ -25,4 +25,8 @@ public class Showtime {
     private String room;
 
     private LocalDateTime showtime;
+
+    private String languageType;
+    
+    private String formatType;
 }

@@ -1,5 +1,6 @@
 package com.example.DaLtdd.repository;
 
+import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.entity.Showtime;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,12 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
             @Param("date") LocalDateTime date);
 
     @NotNull Optional<Showtime> findById (@NotNull String id);
+
+    @Query("SELECT s.movie.id, s.languageType, s.formatType, s.showtime " +
+            "FROM Showtime s " +
+            "WHERE s.cinema.id = :cinemaId AND DATE(s.showtime) = DATE(:date) " +
+            "ORDER BY s.movie.id, s.languageType, s.formatType, s.showtime")
+    List<Object[]> getShowtimesGroupByLanguageAndFormat(
+            @Param("cinemaId") String cinemaId,
+            @Param("date") LocalDateTime date);
 }

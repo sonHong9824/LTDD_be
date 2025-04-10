@@ -1,6 +1,7 @@
 package com.example.DaLtdd.controller;
 
 import com.example.DaLtdd.entity.Showtime;
+import com.example.DaLtdd.model.MovieShowtimeResponse;
 import com.example.DaLtdd.service.ShowtimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,5 +38,12 @@ public class ShowtimeController {
         List<Showtime> showtimes = showtimeService.getShowtimesByMovieDate(movieId, date);
         return ResponseEntity.ok(showtimes);
     }
+    @GetMapping
+    public ResponseEntity<?> getShowtimesByCinemaAndDate(
+            @RequestParam String cinemaId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
+        List<MovieShowtimeResponse> response = showtimeService.getShowtimesGroupByLanguageAndFormat(cinemaId, date.atStartOfDay());
+        return ResponseEntity.ok(response);
+    }
 }

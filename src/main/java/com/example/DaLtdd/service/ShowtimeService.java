@@ -4,6 +4,7 @@ import com.example.DaLtdd.dto.ShowtimeRequest;
 import com.example.DaLtdd.entity.Cinema;
 import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.entity.Showtime;
+import com.example.DaLtdd.model.MovieShowtimeResponse;
 import com.example.DaLtdd.repository.CinemaRepository;
 import com.example.DaLtdd.repository.MovieRepository;
 import com.example.DaLtdd.repository.ShowtimeRepository;
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ShowtimeService {
@@ -48,5 +52,41 @@ public class ShowtimeService {
         LocalDateTime startOfDay = date.atStartOfDay();
         return showtimeRepository.findByMovieAndDate(movieId, startOfDay);
     }
+    public List<MovieShowtimeResponse> getShowtimesGroupByLanguageAndFormat(String cinemaId, LocalDateTime date) {
+        List<Object[]> result = showtimeRepository.getShowtimesGroupByLanguageAndFormat(cinemaId, date);
 
+        Map<String, MovieShowtimeResponse> movieMap = new LinkedHashMap<>();
+
+        for (Object[] row : result) {
+            String movieId = (String) row[0];
+            String languageType = (String) row[1];
+            String formatType = (String) row[2];
+            LocalDateTime showtime = (LocalDateTime) row[3];
+
+            String languageFormat = languageType + " " + formatType;
+
+            MovieShowtimeResponse movieResponse = movieMap.computeIfAbsent(movieId, k -> {
+                MovieShowtimeResponse m = new MovieShowtimeResponse();
+                m.setMovieId(movieId);
+                m.setShowtimes(new ArrayList<>());
+                return m;
+            });
+
+            // Tìm nhóm languageFormat đã có chưa
+            MovieShowtimeResponse.ShowtimeGroup group = movieResponse.getShowtimes()
+                    .stream()
+                    .filter(g -> g.getLanguageFormat().equals(languageFormat))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        MovieShowtimeResponse.ShowtimeGroup g = new MovieShowtimeResponse.ShowtimeGroup();
+                        g.setLanguageFormat(languageFormat);
+                        g.setTimes(new ArrayList<>());
+                        movieResponse.getShowtimes().add(g);
+                        return g;
+                    });
+
+            group.getTimes().add(showtime.toLocalTime().toString());
+        }
+        return new ArrayList<>(movieMap.values());
+    }
 }
