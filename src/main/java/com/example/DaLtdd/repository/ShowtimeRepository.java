@@ -26,11 +26,9 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
 
     @NotNull Optional<Showtime> findById (@NotNull String id);
 
-    @Query("SELECT s.movie.id, s.languageType, s.formatType, s.showtime " +
-            "FROM Showtime s " +
-            "WHERE s.cinema.id = :cinemaId AND DATE(s.showtime) = DATE(:date) " +
-            "ORDER BY s.movie.id, s.languageType, s.formatType, s.showtime")
-    List<Object[]> getShowtimesGroupByLanguageAndFormat(
+    @Query("SELECT s FROM Showtime s WHERE s.cinema.id = :cinemaId AND DATE(s.showtime) = DATE(:date) ORDER BY s.movie.id, s.languageType, s.formatType, s.showtime")
+    List<Showtime> getShowtimesGroupByLanguageAndFormat(
             @Param("cinemaId") String cinemaId,
-            @Param("date") LocalDateTime date);
+            @Param("date") LocalDateTime date
+    );
 }

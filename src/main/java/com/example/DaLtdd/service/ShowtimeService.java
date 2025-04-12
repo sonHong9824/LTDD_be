@@ -53,40 +53,36 @@ public class ShowtimeService {
         return showtimeRepository.findByMovieAndDate(movieId, startOfDay);
     }
     public List<MovieShowtimeResponse> getShowtimesGroupByLanguageAndFormat(String cinemaId, LocalDateTime date) {
-        List<Object[]> result = showtimeRepository.getShowtimesGroupByLanguageAndFormat(cinemaId, date);
+        List<Showtime> result = showtimeRepository.getShowtimesGroupByLanguageAndFormat(cinemaId, date);
 
         Map<String, MovieShowtimeResponse> movieMap = new LinkedHashMap<>();
 
-        for (Object[] row : result) {
-            String movieId = (String) row[0];
-            String languageType = (String) row[1];
-            String formatType = (String) row[2];
-            LocalDateTime showtime = (LocalDateTime) row[3];
-
-            String languageFormat = languageType + " " + formatType;
+        for (Showtime s : result) {
+            String movieId = s.getMovie().getId();
+            String languageFormat = s.getLanguageType() + " " + s.getFormatType();
 
             MovieShowtimeResponse movieResponse = movieMap.computeIfAbsent(movieId, k -> {
                 MovieShowtimeResponse m = new MovieShowtimeResponse();
-                m.setMovieId(movieId);
-                m.setShowtimes(new ArrayList<>());
+                m.setMovie(s.getMovie());
+                m.setShowtimetype(new ArrayList<>()); // đổi từ setShowtimes → setShowtimetype
                 return m;
             });
 
-            // Tìm nhóm languageFormat đã có chưa
-            MovieShowtimeResponse.ShowtimeGroup group = movieResponse.getShowtimes()
+            MovieShowtimeResponse.ShowtimeType group = movieResponse.getShowtimetype()
                     .stream()
                     .filter(g -> g.getLanguageFormat().equals(languageFormat))
                     .findFirst()
                     .orElseGet(() -> {
-                        MovieShowtimeResponse.ShowtimeGroup g = new MovieShowtimeResponse.ShowtimeGroup();
+                        MovieShowtimeResponse.ShowtimeType g = new MovieShowtimeResponse.ShowtimeType();
                         g.setLanguageFormat(languageFormat);
-                        g.setTimes(new ArrayList<>());
-                        movieResponse.getShowtimes().add(g);
+                        g.setShowtimes(new ArrayList<>());
+                        movieResponse.getShowtimetype().add(g);
                         return g;
                     });
 
-            group.getTimes().add(showtime.toLocalTime().toString());
+            group.getShowtimes().add(s); // 👈 Thêm full Showtime entity
         }
+
         return new ArrayList<>(movieMap.values());
     }
 }
