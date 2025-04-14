@@ -17,15 +17,16 @@ public class Ticket {
     @Id
     private Long id;
 
-    @OneToMany
-    private List<BookedSeat> bookedSeat;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BookedSeat> bookedSeat = new ArrayList<>();
 
-    @OneToMany
-    private List<BookedFood> bookedFoods;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BookedFood> bookedFoods = new ArrayList<>();
 
     private int price;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne

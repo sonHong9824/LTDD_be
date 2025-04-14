@@ -27,3 +27,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+
+vnp_TmnCode: AYSYO0AR
+vnp_HashSecret: MRNCERENKB1A3UNI3NXJ7OQ0P2R9PZ4P
+vnp_Url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+vnp_ReturnUrl: https://6f2f-42-113-218-65.ngrok-free.app/api/vnpay/return
+vnp_IpnUrl: https://6f2f-42-113-218-65.ngrok-free.app/api/vnpay/ipn
+

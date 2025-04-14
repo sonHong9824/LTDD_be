@@ -29,6 +29,10 @@ public class TicketService {
     @Autowired
     private BookedFoodRepository bookedFoodRepository;
 
+    public List<Ticket> getTicketsById(String userId) {
+        return ticketRepository.findAllByUserId(userId);
+    }
+
     public Ticket createTicket(TicketRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));

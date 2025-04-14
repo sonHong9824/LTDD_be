@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,8 +17,8 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @OneToMany
-    private List<Ticket> ticket;
+    @OneToOne
+    private Ticket ticket;
 
-    private String paymentMethod;
+    private LocalDateTime time;
 }

@@ -7,10 +7,9 @@ import com.example.DaLtdd.entity.Ticket;
 import com.example.DaLtdd.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/ticket")
@@ -21,5 +20,11 @@ public class TicketController {
     @PostMapping("/create")
     public ResponseEntity<Ticket> createTicket(@RequestBody TicketRequest request) {
         return ResponseEntity.ok(ticketService.createTicket(request));
+    }
+
+    @GetMapping("/userId")
+    public ResponseEntity<List<Ticket>> getTicketsById(@RequestParam String userId) {
+        List<Ticket> tickets = ticketService.getTicketsById(userId);
+        return ResponseEntity.ok(tickets);
     }
 }
