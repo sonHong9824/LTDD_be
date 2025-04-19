@@ -32,4 +32,5 @@ public class Ticket {
     @ManyToOne
     private Showtime showtime;
 
+
 }

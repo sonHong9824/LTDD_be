@@ -2,14 +2,18 @@ package com.example.DaLtdd.service;
 
 import com.example.DaLtdd.dto.MovieRequest;
 import com.example.DaLtdd.dto.MovieSummary;
+import com.example.DaLtdd.entity.FeatureMovie;
 import com.example.DaLtdd.entity.Genre;
 import com.example.DaLtdd.entity.Movie;
+import com.example.DaLtdd.repository.FeatureMovieRepository;
 import com.example.DaLtdd.repository.GenreRepository;
 import com.example.DaLtdd.repository.MovieRepository;
 import com.example.DaLtdd.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import java.lang.management.MonitorInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +31,10 @@ public class MovieService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private FeatureMovieRepository featureMovieRepository;
+
 
     public List<Movie> get_all_moive(){
         return movieRepository.findAll();
@@ -49,11 +57,17 @@ public class MovieService {
         movie.setLanguage(request.getLanguage());
         movie.setBackdropUrl(request.getBackdropUrl());
 
-
         List<Genre> genres = genreRepository.findByNameIn(request.getGenreName());
         movie.setGenres(genres);
 
-        return movieRepository.save(movie);
+        movieRepository.save(movie);
+
+        FeatureMovie featureMovie = new FeatureMovie();
+        featureMovie.setId(movie.getId());
+        featureMovie.setScore(0);
+        featureMovieRepository.save(featureMovie);
+
+        return movie;
     }
     public List<Map<String, Object>> getTopRatedMovies() {
         List<Object[]> results = reviewRepository.findTopRatedMovies();
@@ -112,5 +126,29 @@ public class MovieService {
                 })
                 .collect(Collectors.toList());
 
+    }
+
+    public List<MovieSummary> getFeatureMovie(){
+        Pageable topFive = (Pageable) PageRequest.of(0, 5);
+        List<Movie> movies = movieRepository.findTopFeatureMovies(topFive);
+
+        List<Object[]> ratingData = movieRepository.getMovieRatingsSummary();
+
+        // Chuyển dữ liệu rating thành Map để tra cứu nhanh
+        Map<String, MovieSummary> summaryMap = ratingData.stream()
+                .collect(Collectors.toMap(
+                        data -> (String) data[0], // movieId
+                        data -> new MovieSummary(null, (double) data[1], (long) data[2])
+                ));
+
+        // Ghép dữ liệu movie với summary
+        return movies.stream()
+                .map(movie -> {
+                    MovieSummary summary = summaryMap.get(movie.getId());
+                    return new MovieSummary(movie,
+                            summary != null ? summary.getAverageRating() : 0.0,
+                            summary != null ? summary.getTotalReviews() : 0);
+                })
+                .collect(Collectors.toList());
     }
 }

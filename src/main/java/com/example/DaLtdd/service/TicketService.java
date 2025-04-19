@@ -28,6 +28,8 @@ public class TicketService {
     private FoodRepository foodRepository;
     @Autowired
     private BookedFoodRepository bookedFoodRepository;
+    @Autowired
+    private FeatureMovieRepository featureMovieRepository;
 
     public List<Ticket> getTicketsById(String userId) {
         return ticketRepository.findAllByUserId(userId);
@@ -70,6 +72,10 @@ public class TicketService {
         ticket.setBookedFoods(bookedFoods);
         ticket.setPrice(request.getPrice());
 
+        FeatureMovie featureMovie = featureMovieRepository.findById(showtime.getMovie().getId())
+                        .orElseThrow(() -> new RuntimeException("Movie not found"));
+        featureMovie.increase_for_ticket();
+        featureMovieRepository.save(featureMovie);
         return ticketRepository.save(ticket);
     }
     private Long generateId() {

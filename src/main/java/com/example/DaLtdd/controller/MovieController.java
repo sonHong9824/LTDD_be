@@ -1,5 +1,6 @@
 package com.example.DaLtdd.controller;
 
+import java.awt.print.Pageable;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import com.example.DaLtdd.dto.MovieSummary;
 import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,5 +42,10 @@ public class MovieController {
     @GetMapping("/top-rated")
     public ResponseEntity<List<Map<String, Object>>> getTopRatedMovies() {
         return ResponseEntity.ok(movieService.getTopRatedMovies());
+    }
+
+    @GetMapping("/feature")
+    public ResponseEntity<List<MovieSummary>> getFeatureMovies() {
+        return ResponseEntity.ok(movieService.getFeatureMovie());
     }
 }
