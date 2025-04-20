@@ -1,5 +1,6 @@
 package com.example.DaLtdd.service;
 
+import com.example.DaLtdd.dto.ChangePasswordRequest;
 import com.example.DaLtdd.dto.UserCreationRequest;
 import com.example.DaLtdd.dto.VerifyUserRequest;
 import com.example.DaLtdd.entity.Otp;
@@ -87,5 +88,21 @@ public class UserService {
             messageResponse.setMessage("OTP chưa xác nhận hoặc không hợp lệ");
         }
         return messageResponse;
+    }
+    public MessageResponse changePassword(ChangePasswordRequest request) {
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+
+        if (user == null) {
+            return new MessageResponse("User không tồn tại");
+        }
+
+        if (!user.getPassword().equals(request.getOldPassword())) {
+            return new MessageResponse("Mật khẩu cũ không đúng");
+        }
+
+        user.setPassword(request.getNewPassword());
+        userRepository.save(user);
+
+        return new MessageResponse("Đổi mật khẩu thành công");
     }
 }

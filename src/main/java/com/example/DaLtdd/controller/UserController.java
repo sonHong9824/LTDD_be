@@ -1,5 +1,6 @@
 package com.example.DaLtdd.controller;
 
+import com.example.DaLtdd.dto.ChangePasswordRequest;
 import com.example.DaLtdd.dto.LoginRequest;
 import com.example.DaLtdd.dto.UserCreationRequest;
 import com.example.DaLtdd.dto.VerifyUserRequest;
@@ -50,6 +51,16 @@ public class UserController {
             return ResponseEntity.ok(user); // Trả về thông tin User
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Sai tài khoản hoặc mật khẩu"));
+        }
+    }
+    @PostMapping("/change-password")
+    public ResponseEntity<MessageResponse> changePassword(@RequestBody ChangePasswordRequest request) {
+        MessageResponse response = userService.changePassword(request);
+
+        if (response.getMessage().equals("Đổi mật khẩu thành công")) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 }
