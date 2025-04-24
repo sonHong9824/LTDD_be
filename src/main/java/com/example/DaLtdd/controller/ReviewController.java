@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,6 +22,11 @@ public class ReviewController {
     @PostMapping("/create")
     public ResponseEntity<Review> createReview(ReviewRequest reviewRequest) {
         return ResponseEntity.ok(reviewService.createReview(reviewRequest));
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<Review>> getReviews(@RequestParam String movieId) {
+        return ResponseEntity.ok(reviewService.getReviews(movieId));
     }
 
     @GetMapping("/movie/{movieId}/summary")

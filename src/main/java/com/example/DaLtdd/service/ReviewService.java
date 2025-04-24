@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReviewService {
@@ -32,8 +33,8 @@ public class ReviewService {
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
 
         Review review = new Review();
-        review.setUser_id(user.getId());
-        review.setMovie_id(movie.getId());
+        review.setUser(user);
+        review.setMovieId(movie.getId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
         review.setCreatedAt(LocalDateTime.now());
@@ -48,5 +49,8 @@ public class ReviewService {
             return new MovieRating(0.0, 0);
         }
         return summary;
+    }
+    public List<Review> getReviews(String movieId) {
+        return reviewRepository.findByMovieId(movieId);
     }
 }

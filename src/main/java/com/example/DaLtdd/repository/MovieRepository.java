@@ -11,7 +11,7 @@ import java.util.List;
 public interface MovieRepository extends JpaRepository<Movie, String> {
     List<Movie> findByGenres_Name(String genre);
 
-    @Query("SELECT r.movie_id, AVG(r.rating), COUNT(r) FROM Review r GROUP BY r.movie_id")
+    @Query("SELECT r.movieId, AVG(r.rating), COUNT(r) FROM Review r GROUP BY r.movieId")
     List<Object[]> getMovieRatingsSummary();
 
     @Query("SELECT m FROM Movie m WHERE m.status = 'NOW_SHOWING'")

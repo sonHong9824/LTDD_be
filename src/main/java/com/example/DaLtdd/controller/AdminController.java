@@ -43,7 +43,7 @@ public class AdminController {
     }
 
     @PostMapping("/create-genre")
-    public ResponseEntity<Genre> createCinema(@RequestBody GenreRequest request) {
+    public ResponseEntity<Genre> createGenre(@RequestBody GenreRequest request) {
         return ResponseEntity.ok(genreService.createGenre(request));
     }
 

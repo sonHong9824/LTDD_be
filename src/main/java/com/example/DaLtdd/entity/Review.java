@@ -21,14 +21,15 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private String user_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private String movie_id;
+    private String movieId;
 
     private int rating;
 
     @Column(columnDefinition = "TEXT")
-    @JsonBackReference
     private String comment; // Nội dung bình luận
 
     @Column(nullable = false, updatable = false)
