@@ -5,16 +5,19 @@ import com.example.DaLtdd.dto.MovieSummary;
 import com.example.DaLtdd.entity.FeatureMovie;
 import com.example.DaLtdd.entity.Genre;
 import com.example.DaLtdd.entity.Movie;
+import com.example.DaLtdd.enums.MovieStatus;
 import com.example.DaLtdd.repository.FeatureMovieRepository;
 import com.example.DaLtdd.repository.GenreRepository;
 import com.example.DaLtdd.repository.MovieRepository;
 import com.example.DaLtdd.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import java.lang.management.MonitorInfo;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,5 +153,21 @@ public class MovieService {
                             summary != null ? summary.getTotalReviews() : 0);
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Scheduled(cron = "0 0 1 * * *")
+    public void updateMovieStatusIfReleased() {
+        List<Movie> movies = movieRepository.findAll();
+        LocalDate today = LocalDate.now();
+
+        for (Movie movie : movies) {
+            if (movie.getReleaseDate() != null &&
+                    movie.getReleaseDate().isBefore(today)) {
+                movie.setStatus(MovieStatus.NOW_SHOWING);
+                movieRepository.save(movie);
+            }
+        }
+
+        System.out.println("Movie statuses auto-updated at 1 AM");
     }
 }
