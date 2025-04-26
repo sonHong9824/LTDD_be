@@ -26,15 +26,20 @@ public class ReviewService {
     private MovieRepository movieRepository;
 
     public Review createReview(ReviewRequest request) {
+        System.out.println("User ID: " + request.getUserId());
+
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Movie movie = movieRepository.findById(request.getMovieId())
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
 
+        System.out.println("User ID: " + request.getUserId());
+        System.out.println("Movie ID: " + request.getMovieId());
+
         Review review = new Review();
         review.setUser(user);
-        review.setMovieId(movie.getId());
+        review.setMovieId(request.getMovieId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
         review.setCreatedAt(LocalDateTime.now());
