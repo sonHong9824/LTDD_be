@@ -19,6 +19,6 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
     @Query("SELECT new com.example.DaLtdd.dto.MovieRating(AVG(r.rating), COUNT(r)) FROM Review r WHERE r.movieId = :movieId")
     MovieRating getMovieRatingSummary(@Param("movieId") String movieId);
 
-    List<Review> findByMovieId(String movieId);
+    List<Review> findByMovieIdOrderByCreatedAtDesc(String movieId);
 
 }

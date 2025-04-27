@@ -20,7 +20,7 @@ public class ReviewController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Review> createReview(ReviewRequest reviewRequest) {
+    public ResponseEntity<Review> createReview(@RequestBody ReviewRequest reviewRequest) {
         return ResponseEntity.ok(reviewService.createReview(reviewRequest));
     }
 

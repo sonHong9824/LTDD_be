@@ -56,6 +56,6 @@ public class ReviewService {
         return summary;
     }
     public List<Review> getReviews(String movieId) {
-        return reviewRepository.findByMovieId(movieId);
+        return reviewRepository.findByMovieIdOrderByCreatedAtDesc(movieId);
     }
 }
