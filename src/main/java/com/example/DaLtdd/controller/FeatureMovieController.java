@@ -16,12 +16,8 @@ public class FeatureMovieController {
     private FeatureMovieService featureMovieService;
 
     @PostMapping("/increase")
-    public ResponseEntity<FeatureMovie> increase(String id) {
-        return ResponseEntity.ok(featureMovieService.increase(id));
+    public ResponseEntity<FeatureMovie> increase(String id, int score) {
+        return ResponseEntity.ok(featureMovieService.increase(id, score));
     }
 
-    @PostMapping("/increase_for_ticket")
-    public ResponseEntity<FeatureMovie> increase_for_ticket(String id) {
-        return ResponseEntity.ok(featureMovieService.increase_for_ticket(id));
-    }
 }

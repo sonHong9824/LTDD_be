@@ -15,18 +15,10 @@ public class FeatureMovieService {
         featureMovieRepository.save(featureMovie);
     }
 
-    public FeatureMovie increase(String id) {
+    public FeatureMovie increase(String id, int score) {
         FeatureMovie featureMovie = featureMovieRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy phim với id: " + id));
-        featureMovie.increase_score();
-        featureMovieRepository.save(featureMovie);
-        return featureMovie;
-    }
-
-    public FeatureMovie increase_for_ticket(String id) {
-        FeatureMovie featureMovie = featureMovieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Không tìm thấy phim với id: " + id));
-        featureMovie.increase_for_ticket();
+        featureMovie.increase_score(score);
         featureMovieRepository.save(featureMovie);
         return featureMovie;
     }

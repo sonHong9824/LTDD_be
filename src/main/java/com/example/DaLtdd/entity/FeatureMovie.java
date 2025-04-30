@@ -15,10 +15,7 @@ public class FeatureMovie {
     private String id;
     private int score;
 
-    public void increase_score(){
-        this.score++;
-    }
-    public void increase_for_ticket(){
-        this.score += 2;
+    public void increase_score(int score){
+        this.score = this.score + score;
     }
 }

@@ -2,9 +2,11 @@ package com.example.DaLtdd.service;
 
 import com.example.DaLtdd.dto.MovieRating;
 import com.example.DaLtdd.dto.ReviewRequest;
+import com.example.DaLtdd.entity.FeatureMovie;
 import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.entity.Review;
 import com.example.DaLtdd.entity.User;
+import com.example.DaLtdd.repository.FeatureMovieRepository;
 import com.example.DaLtdd.repository.MovieRepository;
 import com.example.DaLtdd.repository.ReviewRepository;
 import com.example.DaLtdd.repository.UserRepository;
@@ -25,6 +27,9 @@ public class ReviewService {
     @Autowired
     private MovieRepository movieRepository;
 
+    @Autowired
+    private FeatureMovieRepository featureMovieRepository;
+
     public Review createReview(ReviewRequest request) {
         System.out.println("User ID: " + request.getUserId());
 
@@ -43,6 +48,11 @@ public class ReviewService {
         review.setRating(request.getRating());
         review.setComment(request.getComment());
         review.setCreatedAt(LocalDateTime.now());
+
+        FeatureMovie featureMovie = featureMovieRepository.findById(request.getMovieId())
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+        featureMovie.increase_score(3);
+        featureMovieRepository.save(featureMovie);
 
         return reviewRepository.save(review);
     }

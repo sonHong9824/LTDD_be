@@ -74,7 +74,7 @@ public class TicketService {
 
         FeatureMovie featureMovie = featureMovieRepository.findById(showtime.getMovie().getId())
                         .orElseThrow(() -> new RuntimeException("Movie not found"));
-        featureMovie.increase_for_ticket();
+        featureMovie.increase_score(2);
         featureMovieRepository.save(featureMovie);
         return ticketRepository.save(ticket);
     }
