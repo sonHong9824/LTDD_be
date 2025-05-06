@@ -11,6 +11,8 @@ import com.example.DaLtdd.repository.GenreRepository;
 import com.example.DaLtdd.repository.MovieRepository;
 import com.example.DaLtdd.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import java.lang.management.MonitorInfo;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class MovieService {
+public class MovieService implements ApplicationRunner {
     @Autowired
     private GenreRepository genreRepository;
 
@@ -155,19 +158,31 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    @Scheduled(cron = "0 0 1 * * *")
     public void updateMovieStatusIfReleased() {
         List<Movie> movies = movieRepository.findAll();
         LocalDate today = LocalDate.now();
 
         for (Movie movie : movies) {
             if (movie.getReleaseDate() != null &&
-                    movie.getReleaseDate().isBefore(today)) {
+                    movie.getReleaseDate().isBefore(today) &&
+                    movie.getStatus() != MovieStatus.NOW_SHOWING) {
                 movie.setStatus(MovieStatus.NOW_SHOWING);
                 movieRepository.save(movie);
             }
         }
 
-        System.out.println("Movie statuses auto-updated at 1 AM");
+        System.out.println("Movie statuses updated at " + LocalDateTime.now());
+    }
+
+    // Chạy khi ứng dụng khởi động
+    @Override
+    public void run(ApplicationArguments args) {
+        updateMovieStatusIfReleased();
+    }
+
+    // Chạy lúc 1 giờ sáng mỗi ngày
+    @Scheduled(cron = "0 0 1 * * *")
+    public void scheduledUpdate() {
+        updateMovieStatusIfReleased();
     }
 }

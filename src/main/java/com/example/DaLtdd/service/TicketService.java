@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -43,6 +44,19 @@ public class TicketService {
                 .orElseThrow(() -> new RuntimeException("Showtime not found"));
 
         List<String> requestedSeats = request.getSeats();
+        // Lấy các ghế đã được đặt trước đó cho cùng showtime
+        List<BookedSeat> existingSeats = seatRepository.findBookedSeatsByShowtimeIdAndSeatIn(
+                request.getShowtimeId(), requestedSeats
+        );
+
+        if (!existingSeats.isEmpty()) {
+            // Có ghế đã được đặt rồi
+            String alreadyBooked = existingSeats.stream()
+                    .map(BookedSeat::getSeat)
+                    .collect(Collectors.joining(", "));
+            throw new RuntimeException("Các ghế đã được đặt: " + alreadyBooked);
+        }
+
         List<BookedSeat> bookedSeats = requestedSeats.stream().map(seatName -> {
             BookedSeat seat = new BookedSeat();
             seat.setSeat(seatName);
@@ -50,6 +64,8 @@ public class TicketService {
             return seat;
         }).toList();
         seatRepository.saveAll(bookedSeats);
+
+
 
         List<BookedFood> bookedFoods = new ArrayList<>();
         if(request.getBookedFoods() != null) {

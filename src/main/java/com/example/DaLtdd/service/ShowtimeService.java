@@ -38,6 +38,8 @@ public class ShowtimeService {
         showtime.setCinema(cinema);
         showtime.setShowtime(request.getShowtime());
         showtime.setRoom(request.getRoom());
+        showtime.setFormatType(request.getFormatType());
+        showtime.setLanguageType(request.getLanguageType());
 
         return showtimeRepository.save(showtime);
     }
