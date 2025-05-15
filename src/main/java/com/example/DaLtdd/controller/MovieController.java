@@ -1,23 +1,17 @@
 package com.example.DaLtdd.controller;
 
-import java.awt.print.Pageable;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 import com.example.DaLtdd.dto.MovieSummary;
 import com.example.DaLtdd.entity.Movie;
 import com.example.DaLtdd.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/movie")

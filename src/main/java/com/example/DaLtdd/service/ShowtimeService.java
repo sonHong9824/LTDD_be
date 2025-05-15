@@ -61,7 +61,7 @@ public class ShowtimeService {
 
         for (Showtime s : result) {
             String movieId = s.getMovie().getId();
-            String languageFormat = s.getLanguageType() + " " + s.getFormatType();
+            String languageFormat = s.getFormatType() + " - " + s.getLanguageType();
 
             MovieShowtimeResponse movieResponse = movieMap.computeIfAbsent(movieId, k -> {
                 MovieShowtimeResponse m = new MovieShowtimeResponse();
