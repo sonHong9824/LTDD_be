@@ -13,7 +13,6 @@
 
 - **Java**: version 21
 - **Spring Boot**: version 3.4.0
-- **Spring Security** + **JWT** cho authentication và authorization
 - **MySQL**: Database
 - **Maven**: Build tool và dependency management
 - **Lombok**: Giảm boilerplate code
