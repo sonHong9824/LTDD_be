@@ -1,4 +1,4 @@
-# 🏀 SportBooking API
+# 🎬 Movie Booking App
 
 ## 📌 Giới thiệu
 
